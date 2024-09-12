@@ -26,6 +26,7 @@ WORKDIR /app
 # Expose the default Django port
 EXPOSE 8000
 
+ARG DEV=false
 # Create a virtual environment, upgrade pip, install dependencies, and clean up
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
