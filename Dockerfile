@@ -30,11 +30,15 @@ ARG DEV=false
 # Create a virtual environment, upgrade pip, install dependencies, and clean up
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /temp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /temp/requirements.dev.txt ; \
     fi && \
     rm -rf /temp && \
+    apk del .tmp-build-deps && \
     adduser \
         --disabled-password \
         --no-create-home \
